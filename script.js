@@ -234,7 +234,7 @@ function showTambahSuratMasukForm() {
       perihal: this.perihal.value
     };
     try {
-      const res = await fetch(https://script.google.com/macros/s/AKfycbwC-7fU3MvVb_wOkETNFBy-pI8sOx8B9_tufmFuft6QN3W8P1XIKkSakiiXRSFGVQ/exec, {
+      const res = await fetch('https://script.google.com/macros/s/AKfycbwC-7fU3MvVb_wOkETNFBy-pI8sOx8B9_tufmFuft6QN3W8P1XIKkSakiiXRSFGVQ'/exec, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -313,4 +313,5 @@ if (!document.getElementById('modal-surat-style')) {
   </style>
   `);
 }
+
 
