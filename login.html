@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Persuratan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .login-container{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f6f8fb;}
+    .login-card{background:#fff;padding:36px 32px 28px 32px;border-radius:14px;box-shadow:0 8px 32px rgba(17,24,39,0.10);width:100%;max-width:370px;}
+    .login-card h2{margin:0 0 8px 0;font-size:1.5rem;font-weight:700;color:#4f46e5;}
+    .login-card p{color:#6b7280;margin-bottom:18px;}
+    .login-card label{display:block;font-size:14px;margin-bottom:6px;color:#444;}
+    .login-card input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid #e6e9ef;font-size:15px;margin-bottom:10px;}
+    .login-card .btn{width:100%;background:linear-gradient(180deg,#4f46e5,#4338ca);color:white;font-weight:600;padding:12px 0;border:none;border-radius:8px;cursor:pointer;font-size:1rem;margin-top:8px;}
+    .login-card .error{color:#ef4444;font-size:13px;min-height:18px;margin-bottom:6px;}
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <form class="login-card" id="login-form" autocomplete="on" novalidate>
+      <h2>Login Persuratan</h2>
+      <p>Masuk untuk mengakses aplikasi persuratan</p>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required autocomplete="username">
+      <div class="error" id="user-error"></div>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password">
+      <div class="error" id="pass-error"></div>
+      <button class="btn" type="submit" id="login-btn">Masuk</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      var user = document.getElementById('username');
+      var pass = document.getElementById('password');
+      var userErr = document.getElementById('user-error');
+      var passErr = document.getElementById('pass-error');
+      var valid = true;
+      userErr.textContent = '';
+      passErr.textContent = '';
+      if(!user.value.trim()){
+        userErr.textContent = 'Username wajib diisi';
+        valid = false;
+      }
+      if(!pass.value){
+        passErr.textContent = 'Password wajib diisi';
+        valid = false;
+      }
+      if(valid){
+        // Demo: username: admin, password: admin123
+        if(user.value === 'admin' && pass.value === 'admin123'){
+          localStorage.setItem('persuratan_login', 'true');
+          window.location.href = 'index.html';
+        }else{
+          passErr.textContent = 'Username atau password salah';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

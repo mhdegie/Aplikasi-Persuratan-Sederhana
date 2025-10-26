@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Persuratan</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .btn-auth {
+      background: linear-gradient(180deg,#4f46e5,#4338ca);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn-auth:hover { background: #4338ca; }
+    .sidebar-footer {
+      margin-top: auto;
+      padding-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .main-content { margin: 8px; padding: 0; }
+      .main-header, #content-area { padding: 12px 8px 0 8px; }
+      .sidebar { width: 170px; }
+      .sidebar-header { font-size: 1.1rem; padding: 18px 12px; }
+      .menu-item { padding: 12px 10px; font-size: 0.98rem; }
+    }
+    @media (max-width: 700px) {
+      .app-container { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: unset;
+        box-shadow: 0 2px 8px #e5e7eb;
+        border-radius: 0 0 12px 12px;
+        padding-bottom: 0;
+      }
+      .sidebar-header { width: 100%; text-align: center; padding: 12px 0 6px 0; }
+      .menu {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        margin: 0;
+        gap: 0;
+      }
+      .menu-item {
+        flex: 1 1 25%;
+        padding: 10px 0;
+        font-size: 0.97rem;
+        border-left: none;
+        border-bottom: 4px solid transparent;
+        border-radius: 0;
+        justify-content: center;
+      }
+      .menu-item.active, .menu-item:hover {
+        background: rgba(79,70,229,0.08);
+        border-bottom: 4px solid #4f46e5;
+        border-left: none;
+      }
+      .sidebar-footer {
+        width: 100%;
+        margin: 0;
+        padding: 8px 0 8px 0;
+        border-top: 1px solid #e5e7eb;
+        background: #fff;
+        box-shadow: 0 -2px 8px #e5e7eb;
+      }
+      .btn-auth { width: 96%; margin: 0 auto; }
+    }
+    @media (max-width: 480px) {
+      .main-content { margin: 0; border-radius: 0; }
+      .main-header, #content-area { padding: 8px 2px 0 2px; }
+      .sidebar-header { font-size: 1rem; }
+      .btn-auth { font-size: 0.98rem; padding: 8px 0; }
+      .table th, .table td { padding: 7px 4px; font-size: 0.92rem; }
+      .dashboard-stats { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="brand">Persuratan</span>
+      </div>
+      <nav class="menu">
+        <button class="menu-item active" data-menu="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</button>
+        <button class="menu-item" data-menu="masuk"><i class="fa-solid fa-inbox"></i> Surat Masuk</button>
+        <button class="menu-item" data-menu="keluar"><i class="fa-solid fa-paper-plane"></i> Surat Keluar</button>
+        <button class="menu-item" data-menu="disposisi"><i class="fa-solid fa-share-nodes"></i> Disposisi Surat</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="auth-btn" class="btn-auth" style="width:90%;margin:18px 5% 18px 5%;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="main-header">
+        <h1 id="page-title">Dashboard</h1>
+      </header>
+      <section id="content-area">
+        <!-- Konten akan diisi oleh script.js -->
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
