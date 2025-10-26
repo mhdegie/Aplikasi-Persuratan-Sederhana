@@ -196,3 +196,120 @@ function renderDashboardPie() {
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(renderDashboardPie, 200);
 });
+
+function showTambahSuratMasukForm() {
+  // Modal form HTML
+  const modal = document.createElement('div');
+  modal.className = 'modal-surat';
+  modal.innerHTML = `
+    <div class="modal-surat-backdrop"></div>
+    <div class="modal-surat-content">
+      <h3>Tambah Surat Masuk</h3>
+      <form id="form-surat-masuk" autocomplete="off">
+        <label>Nomor Surat<br><input type="text" name="nomor" required></label>
+        <label>Pengirim<br><input type="text" name="pengirim" required></label>
+        <label>Tanggal<br><input type="date" name="tanggal" required></label>
+        <label>Perihal<br><input type="text" name="perihal" required></label>
+        <div class="modal-surat-actions">
+          <button type="submit" class="btn-action">Simpan</button>
+          <button type="button" class="btn-action btn-cancel">Batal</button>
+        </div>
+        <div class="modal-surat-status" style="margin-top:10px;color:#4f46e5;"></div>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  // Close modal
+  modal.querySelector('.btn-cancel').onclick = () => modal.remove();
+  modal.querySelector('.modal-surat-backdrop').onclick = () => modal.remove();
+  // Submit handler (Google Sheets integration)
+  modal.querySelector('#form-surat-masuk').onsubmit = async function(e) {
+    e.preventDefault();
+    const status = modal.querySelector('.modal-surat-status');
+    status.textContent = 'Menyimpan...';
+    const data = {
+      nomor: this.nomor.value,
+      pengirim: this.pengirim.value,
+      tanggal: this.tanggal.value,
+      perihal: this.perihal.value
+    };
+    try {
+      const res = await fetch('https://script.google.com/macros/s/AKfycbwC-7fU3MvVb_wOkETNFBy-pI8sOx8B9_tufmFuft6QN3W8P1XIKkSakiiXRSFGVQ/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if(result.result === 'success') {
+        status.style.color = '#16a34a';
+        status.textContent = 'Data berhasil disimpan ke Google Sheets!';
+        setTimeout(() => modal.remove(), 1200);
+      } else {
+        status.style.color = '#ef4444';
+        status.textContent = 'Gagal menyimpan data!';
+      }
+    } catch(err) {
+      status.style.color = '#ef4444';
+      status.textContent = 'Gagal terhubung ke server!';
+    }
+  };
+}
+
+function showTambahSuratKeluarForm() {
+  // Modal form HTML
+  const modal = document.createElement('div');
+  modal.className = 'modal-surat';
+  modal.innerHTML = `
+    <div class="modal-surat-backdrop"></div>
+    <div class="modal-surat-content">
+      <h3>Tambah Surat Keluar</h3>
+      <form id="form-surat-keluar" autocomplete="off">
+        <label>Nomor Surat<br><input type="text" name="nomor" required></label>
+        <label>Tujuan<br><input type="text" name="tujuan" required></label>
+        <label>Tanggal<br><input type="date" name="tanggal" required></label>
+        <label>Perihal<br><input type="text" name="perihal" required></label>
+        <div class="modal-surat-actions">
+          <button type="submit" class="btn-action">Simpan</button>
+          <button type="button" class="btn-action btn-cancel">Batal</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  // Close modal
+  modal.querySelector('.btn-cancel').onclick = () => modal.remove();
+  modal.querySelector('.modal-surat-backdrop').onclick = () => modal.remove();
+  // Submit handler (demo only)
+  modal.querySelector('#form-surat-keluar').onsubmit = function(e) {
+    e.preventDefault();
+    alert('Data surat keluar berhasil disimpan! (Demo)');
+    modal.remove();
+  };
+}
+
+// Event delegation for dynamic content
+contentArea.addEventListener('click', function(e) {
+  if (e.target && (e.target.id === 'btn-tambah-surat' || e.target.closest('#btn-tambah-surat'))) {
+    showTambahSuratMasukForm();
+  }
+  if (e.target && (e.target.id === 'btn-tambah-surat-keluar' || e.target.closest('#btn-tambah-surat-keluar'))) {
+    showTambahSuratKeluarForm();
+  }
+});
+
+// Tambahkan style modal jika belum ada
+if (!document.getElementById('modal-surat-style')) {
+  document.head.insertAdjacentHTML('beforeend', `
+  <style id="modal-surat-style">
+    .modal-surat {position:fixed;z-index:1000;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+    .modal-surat-backdrop {position:absolute;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);}
+    .modal-surat-content {position:relative;background:#fff;padding:28px 22px 18px 22px;border-radius:12px;box-shadow:0 8px 32px rgba(17,24,39,0.13);min-width:270px;max-width:96vw;width:350px;z-index:2;}
+    .modal-surat-content h3 {margin-top:0;margin-bottom:18px;font-size:1.2rem;color:#4f46e5;}
+    .modal-surat-content label {display:block;margin-bottom:12px;font-size:1rem;color:#222;}
+    .modal-surat-content input[type="text"], .modal-surat-content input[type="date"] {width:100%;padding:9px 10px;border-radius:7px;border:1px solid #e6e9ef;font-size:1rem;margin-top:4px;box-sizing:border-box;}
+    .modal-surat-actions {display:flex;gap:10px;justify-content:flex-end;margin-top:18px;}
+    .modal-surat .btn-action {min-width:80px;}
+    @media (max-width:480px) {.modal-surat-content{padding:14px 4vw 10px 4vw;width:98vw;}}
+  </style>
+  `);
+}
